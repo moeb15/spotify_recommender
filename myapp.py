@@ -10,19 +10,25 @@ tabular_data = pd.read_csv('data/ag_data.csv')
 
 genres = list(set(tabular_data['Subgenre'].tolist()))
 
-st.write("""
-## Spotify Artists Recommendations
-Select your favourite genres and in return get artists recommendeded to you!
-Re-enter your selection to get another batch of artists recommended to you.
-""")
 
-selected_genres = st.multiselect(label='Choose your favourite genres',options=genres)
-num_artists = st.slider("Number of artists",5,20,1)
-recommendations = recommend_artists(selected_genres,kmodes_model,encoder,transactional_data,num_artists)
+def main_app():
+    st.write("""
+    ## Spotify Artists Recommendations
+    Select your favourite genres and in return get artists recommendeded to you!
+    Re-enter your selection to get another batch of artists recommended to you.
+    """)
 
-rec_str = ''
+    selected_genres = st.multiselect(label='Choose your favourite genres',options=genres)
+    num_artists = st.slider("Number of artists",5,20,1)
+    recommendations = recommend_artists(selected_genres,kmodes_model,encoder,transactional_data,num_artists)
 
-for artist in recommendations:
-    rec_str += "- " + artist + "\n"
+    rec_str = ''
 
-st.markdown(rec_str)
+    for artist in recommendations:
+        rec_str += "- " + artist + "\n"
+
+    st.markdown(rec_str)
+
+
+if __name__ == "__main__":
+    main_app()
